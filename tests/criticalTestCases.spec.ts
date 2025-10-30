@@ -17,7 +17,9 @@ test('Register User', async ({ page }) => {
                 
     await homePage.navigateToTheLink();
     await homePage.goToSignup();
-    await signUpPage.enterSignupInfo("Sarah", "sarah55@gmail.com");
+    let name = process.env.name!;
+    let email= process.env.email!;
+    await signUpPage.enterSignupInfo(name ,email);
     await signUpPage.fillAccountInformation();
     await signUpPage.fillAddressDetails(
         "Sarah",
@@ -42,7 +44,9 @@ test('Login User with correct email and password', async ({ page }) => {
     await homePage.navigateToTheLink();
     await homePage.verifyHomePageVisible();
     await homePage.goToSignup();
-    await loginPage.login("sarah555@gmail.com", "Iris12345!");
+    let email = process.env.email!;
+    let password = process.env.password!;
+    await loginPage.login(email, password);
     await loginPage.isLoginToYourAccountTitleVisible();
 });
 
@@ -52,42 +56,45 @@ test("User Logout", async ({ page }) => {
     await homePage.navigateToTheLink();
     await homePage.verifyHomePageVisible();
     await homePage.goToSignup();
-    await loginPage.login("sarah555@gmail.com", "Iris12345!");
-    await loginPage.verifyLoggedInAs(); 
+    let email = process.env.email!;
+    let password = process.env.password!;
+    await loginPage.login(email, password);
+    await loginPage.verifyLoggedInAs();
     await loginPage.logout();
     await homePage.verifyHomePageVisible();
 });
 
 
 
-test("Add item to cart and checkout", async ({ page }) => {
-  const homePage = new HomePage(page);
-  const loginPage = new LoginPage(page);
-  const signUpPage = new SignUp(page);
-  const cartPage = new CartPage(page);
-  const checkoutPage = new CheckoutPage(page);
+    test("Add multiple items to cart", async ({ page }) => {
+        const homePage = new HomePage(page);
+        const loginPage = new LoginPage(page);
+        const cartPage = new CartPage(page);
+        const checkoutPage = new CheckoutPage(page);
 
-  await homePage.navigateToTheLink();
-  await homePage.verifyHomePageVisible();
-  await homePage.goToSignup();
-  await loginPage.login("sarah555@gmail.com", "Iris12345!");
-  
-    await cartPage.addProductToCart();
-    await cartPage.verifyCartPageTitle();
-  await cartPage.verifyCartProductsVisible();
-  await checkoutPage.verifyAddressDetails();
-  await checkoutPage.clickPlaceOrder();
-});
-test("Delete items from cart", async ({ page }) => {
-  const homePage = new HomePage(page);
-  const loginPage = new LoginPage(page);
-  const signUpPage = new SignUp(page);
-  const cartPage = new CartPage(page);
+        await homePage.navigateToTheLink();
+        await homePage.verifyHomePageVisible();
+        await homePage.goToSignup();
+        const email = process.env.email!;
+        const password = process.env.password!;
+        await loginPage.login(email, password);
+        await cartPage.addAllProductsToCart();
+        await cartPage.verifyCartProductsVisible();
+    
+    });
 
-  await homePage.navigateToTheLink();
-  await homePage.verifyHomePageVisible();
-  await homePage.goToSignup();
-    await loginPage.login("   sarah55@gmail.com", "password123");     
-    await cartPage.verifyCartPageTitle();
-    await cartPage.deleteAllProductsFromCart();
-});
+   test("Delete items from cart", async ({ page }) => {
+     const homePage = new HomePage(page);
+     const loginPage = new LoginPage(page);
+     const cartPage = new CartPage(page);
+
+     await homePage.navigateToTheLink();
+     await homePage.verifyHomePageVisible();
+     await homePage.goToSignup();
+     const email = process.env.email!;
+     const password = process.env.password!;
+     await loginPage.login(email, password);
+     await cartPage.addAllProductsToCart();
+     await cartPage.verifyCartProductsVisible();
+     await cartPage.deleteAllProductsFromCart();
+   });

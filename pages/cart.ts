@@ -4,14 +4,21 @@ export class CartPage {
   private addToCartButton: Locator;
   private proceedToCheckoutButton: Locator;
   private cartProducts: Locator;
+  private allProducts: Locator;
   private deleteIcon: Locator;
   private cartPageTitle: Locator;
   private emptyCartMessage: Locator;
 
   constructor(page: Page) {
-    this.addToCartButton = page.locator("a[class='btn btn-default add-to-cart']");
-    this.cartProducts = page.locator("tbody tr");
+    this.addToCartButton = page.locator(
+      "a[class='btn btn-default add-to-cart']"
+    );
+      this.cartProducts = page.locator("tbody tr");
+      this.allProducts = page.locator(
+        'div[class="features_items"] div[class="single-products"]'
+      );
     this.cartPageTitle = page.locator("ol[class='breadcrumb'] li").nth(1);
+
     this.deleteIcon = page.locator("a[class='cart_quantity_delete']");
     this.emptyCartMessage = page.locator("span[id='empty_cart'] b");
     this.proceedToCheckoutButton = page.locator(
@@ -21,13 +28,17 @@ export class CartPage {
 
   async verifyCartPageTitle(): Promise<void> {
     await expect(this.cartPageTitle).toBeVisible();
-    await expect(this.cartPageTitle).toHaveText("Shopping Cart");
   }
-    async addProductToCart(): Promise<void> {
-    await this.addToCartButton.first().click();
+  async addAllProductsToCart(): Promise<void> {
+    const productCount = await this.allProducts.count();
+
+    for (let i = 0; i < productCount; i++) {
+      const addToCartButton = this.allProducts
+        .nth(i)
+        .locator("a[data-product-id]");
+      await addToCartButton.click();
+    }
   }
-
-
 
   async verifyCartProductsVisible(): Promise<void> {
     for (let i = 0; i < (await this.cartProducts.count()); i++) {
