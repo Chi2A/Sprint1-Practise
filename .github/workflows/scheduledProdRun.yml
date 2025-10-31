@@ -1,0 +1,79 @@
+# Name of the GitHub Actions workflow that appears in the Actions tab
+name: Scheduled Prod Run
+
+# Defines when this workflow should run
+on:
+  # Schedule-based trigger using cron syntax
+  schedule:
+   # Runs at 8 PM CST (2 AM UTC) every day
+   # Format: minute hour day-of-month month day-of-week
+    - cron: "0 2 * * *"
+  # Allows the workflow to be triggered manually from GitHub UI
+  workflow_dispatch:
+
+  
+# Defines the jobs that run in this workflow
+jobs:
+  # Job name that runs Playwright tests
+  playwright-tests:
+    # Specifies the type of virtual machine to run the job on
+    runs-on: ubuntu-latest
+    
+    # Sequential steps that execute in this job
+    steps:
+      # Step 1: Downloads the repository code to the runner
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Installs Node.js environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          # Uses the latest LTS (Long Term Support) version of Node.js
+          node-version: "lts/*"
+          # Caches npm dependencies to speed up subsequent runs
+          cache: "npm"
+
+      # Step 3: Installs project dependencies from package-lock.json
+      - name: Install dependencies
+        run: npm ci
+
+      # Step 4: Installs Playwright browsers and their system dependencies
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      # Step 5: Executes the Playwright test suite
+      - name: Run tests
+        env:
+            baseURL: "https://automationexercise.com/"
+            EMAIL: ${{ secrets.email }}
+            PASSWORD: ${{ secrets.password }}
+            USER_NAME: ${{ secrets.name }}
+        run: npm test
+          
+
+      # Step 6: Uploads the HTML test report as an artifact
+      - name: Upload Playwright Report
+        uses: actions/upload-artifact@v4
+        # Runs this step even if previous steps fail
+        if: always()
+        with:
+          # Unique name for the artifact including the run number
+          name: playwright-report-${{ github.run_number }}
+          # Directory path containing the report files
+          path: playwright-report/
+          # Number of days to keep the artifact before automatic deletion
+          retention-days: 30
+
+      # Step 7: Uploads raw test results (screenshots, videos, traces)
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v4
+        # Runs this step even if previous steps fail
+        if: always()
+        with:
+          # Unique name for the artifact including the run number
+          name: test-results-${{ github.run_number }}
+          # Directory path containing the test result files
+          path: test-results/
+          # Number of days to keep the artifact before automatic deletion
+          retention-days: 30  
