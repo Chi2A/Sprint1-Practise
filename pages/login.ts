@@ -19,8 +19,8 @@ export class LoginPage {
   }
 
   async login(email: string, password: string) {
-    await this.loginEmail.fill(email);
-    await this.loginPassword.fill(password);
+    await this.loginEmail.fill(process.env.email!);
+    await this.loginPassword.fill(process.env.password!);
     await this.loginButton.click();
   }
   async isLoginToYourAccountTitleVisible() {
