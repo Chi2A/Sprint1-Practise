@@ -26,8 +26,8 @@ export class SignUp {
   }
 
   async enterSignupInfo(name: string, email: string) {
-    await this.signUpName.fill(process.env.name!);
-    await this.signUpEmail.fill(process.env.email!);
+    await this.signUpName.fill(process.env.NAME!);
+    await this.signUpEmail.fill(process.env.EMAIL!);
     await this.signUpButton.click();
   }
   async isEnterAccountInformationTitleVisible() {
