@@ -1,6 +1,4 @@
-import { Page, expect ,Locator} from "@playwright/test";
-
-
+import { Page, expect, Locator } from "@playwright/test";
 
 export class HomePage {
   private homePageTitle: Locator;
@@ -27,6 +25,4 @@ export class HomePage {
   async dressItemSelection(): Promise<void> {
     await this.dressItemLink.click();
   }
-} 
-
-  
+}
