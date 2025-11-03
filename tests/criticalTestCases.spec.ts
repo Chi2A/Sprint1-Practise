@@ -17,8 +17,8 @@ test('Register User', async ({ page }) => {
                 
     await homePage.navigateToTheLink();
     await homePage.goToSignup();
-    let name = process.env.NAME!;
-    let email= process.env.EMAIL!;
+    let name = process.env.name!;
+    let email= process.env.email!;
     await signUpPage.enterSignupInfo(name ,email);
     await signUpPage.fillAccountInformation();
     await signUpPage.fillAddressDetails(
@@ -44,8 +44,8 @@ test('Login User with correct email and password', async ({ page }) => {
     await homePage.navigateToTheLink();
     await homePage.verifyHomePageVisible();
     await homePage.goToSignup();
-    let email = process.env.EMAIL!;
-    let password = process.env.PASSWORD!;
+    let email = process.env.email!;
+    let password = process.env.password!;
     await loginPage.login(email, password);
     await loginPage.isLoginToYourAccountTitleVisible();
 });
@@ -56,8 +56,8 @@ test("User Logout", async ({ page }) => {
     await homePage.navigateToTheLink();
     await homePage.verifyHomePageVisible();
     await homePage.goToSignup();
-    let email = process.env.EMAIL!;
-    let password = process.env.PASSWORD!;
+    let email = process.env.email!;
+    let password = process.env.password!;
     await loginPage.login(email, password);
     await loginPage.verifyLoggedInAs();
     await loginPage.logout();
@@ -75,8 +75,8 @@ test("User Logout", async ({ page }) => {
         await homePage.navigateToTheLink();
         await homePage.verifyHomePageVisible();
         await homePage.goToSignup();
-        const email = process.env.EMAIL!;
-        const password = process.env.PASSWORD!;
+        const email = process.env.email!;
+        const password = process.env.password!;
         await loginPage.login(email, password);
         await cartPage.addAllProductsToCart();
         await cartPage.verifyCartProductsVisible();
@@ -91,8 +91,8 @@ test("User Logout", async ({ page }) => {
      await homePage.navigateToTheLink();
      await homePage.verifyHomePageVisible();
      await homePage.goToSignup();
-     const email = process.env.EMAIL!;
-     const password = process.env.PASSWORD!;
+     const email = process.env.email!;
+     const password = process.env.password!;
      await loginPage.login(email, password);
      await cartPage.addAllProductsToCart();
      await cartPage.verifyCartProductsVisible();
