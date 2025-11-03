@@ -25,7 +25,7 @@ export class SignUp {
       this.passwordInput = this.page.locator('#password');      
   }
 
-  async enterSignupInfo(name: string, email: string) {
+  async enterSignupInfo(NAME: string, EMAIL: string) {
     await this.signUpName.fill(process.env.NAME!);
     await this.signUpEmail.fill(process.env.EMAIL!);
     await this.signUpButton.click();
