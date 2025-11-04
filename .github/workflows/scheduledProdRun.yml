@@ -45,10 +45,10 @@ jobs:
       # Step 5: Executes the Playwright test suite
       - name: Run tests
         env:
-            baseURL: "https://automationexercise.com/"
+            BASE_URL: "https://automationexercise.com/"
             EMAIL: ${{ secrets.email }}
             PASSWORD: ${{ secrets.password }}
-            USER_NAME: ${{ secrets.name }}
+            NAME: ${{ secrets.name }}
         run: npm test
           
 

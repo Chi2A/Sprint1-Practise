@@ -18,9 +18,9 @@ export class LoginPage {
     this.logoutButton = this.page.locator("a[href='/logout']");
   }
 
-  async login(email: string, password: string) {
-    await this.loginEmail.fill(email);
-    await this.loginPassword.fill(password);
+  async login(EMAIL: string, PASSWORD: string) {
+    await this.loginEmail.fill(EMAIL);
+    await this.loginPassword.fill(PASSWORD);
     await this.loginButton.click();
   }
   async isLoginToYourAccountTitleVisible() {
